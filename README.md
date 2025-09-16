@@ -2,7 +2,7 @@
 
 > *“The fun way for kids to learn Artificial Intelligence — one adventure at a time!”*
 
-![Aang Logo]("C:\Users\HP\Pictures\Screenshots\Screenshot 2025-09-16 102047.png")  
+![Aang Logo]("./home.png")  
 *(Replace with your logo or screenshot — see instructions below)*
 
 ---
