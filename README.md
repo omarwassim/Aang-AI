@@ -62,23 +62,7 @@ Built with ❤️ using:
 
 All logic runs in-browser — no servers needed for basic version!
 
----
 
-## 📦 Project Structure
-
-aang-ai-kids/
-├── index.html # Main entry point
-├── css/
-│ └── style.css # Kid-friendly colorful styles
-├── js/
-│ ├── main.js # Game logic & interactions
-│ └── ai-models.js # Simplified AI functions
-├── images/
-│ ├── aang-logo.png
-│ ├── gameplay-screenshot.png
-│ └── dashboard-screenshot.png
-├── README.md # You are here!
-└── LICENSE
 
 ## 🧑‍💻 Getting Started
 
