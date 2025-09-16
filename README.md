@@ -2,11 +2,9 @@
 
 > *“The fun way for kids to learn Artificial Intelligence — one adventure at a time!”*
 
-![Aang Logo]("<img width="1919" height="915" alt="Screenshot 2025-09-16 102047" src="https://github.com/user-attachments/assets/4de26765-0c31-4ef6-86e8-1553b9efcac3" />
-")  
-*(Replace with your logo or screenshot — see instructions below)*
+<img width="1919" height="915" alt="Screenshot 2025-09-16 102047" src="https://github.com/user-attachments/assets/4de26765-0c31-4ef6-86e8-1553b9efcac3" />
 
----
+  
 
 ## 🌟 What is Aang?
 
@@ -67,3 +65,41 @@ All logic runs in-browser — no servers needed for basic version!
 ---
 
 ## 📦 Project Structure
+
+aang-ai-kids/
+├── index.html # Main entry point
+├── css/
+│ └── style.css # Kid-friendly colorful styles
+├── js/
+│ ├── main.js # Game logic & interactions
+│ └── ai-models.js # Simplified AI functions
+├── images/
+│ ├── aang-logo.png
+│ ├── gameplay-screenshot.png
+│ └── dashboard-screenshot.png
+├── README.md # You are here!
+└── LICENSE
+
+## 🧑‍💻 Getting Started
+
+### To run locally:
+
+1. Clone this repo:
+```bash
+git clone https://github.com/your-username/aang-ai-kids.git
+Open index.html in your browser — that’s it!
+No build tools required — pure frontend magic ✨ 
+
+🤝 Contributing
+We ❤️ contributions! Whether you’re a teacher, parent, developer, or kid — you can help:
+
+🎨 Design new game levels or characters
+💬 Write fun story scripts
+🧠 Suggest simpler AI explanations
+🐛 Report bugs or suggest features
+👉 Open an Issue or submit a Pull Request!
+
+📜 License
+MIT License — Free to use, modify, and teach with!
+
+
