@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aang AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', 'Poppins', cursive, sans-serif;
+        }
+        
+        body {
+            background: url('./Background.png') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            color: #fff;
+            position: relative;
+        }
+        
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+        
+        .floating-bubbles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            overflow: hidden;
+        }
+        
+        .bubble {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 15s infinite linear;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(1);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px) scale(1.5);
+                opacity: 0;
+            }
+        }
+        
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 100;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 0 0 20px 20px;
+        }
+        
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: url('./logo\ \(2\).png') no-repeat center center/cover;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .navbar-logo h1 {
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #ff9a9e, #fecfef, #a8edea, #fed6e3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            padding: 8px 16px;
+            border-radius: 30px;
+            position: relative;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid transparent;
+        }
+        
+        .nav-links a:hover {
+            color: #ff6b6b;
+            background: rgba(255, 255, 255, 0.4);
+            transform: translateY(-3px) scale(1.05);
+            border-color: #ff6b6b;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+        
+        .upload-btn {
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .upload-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);
+        }
+        
+        .upload-btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+        }
+        
+        .upload-btn:hover:before {
+            left: 100%;
+        }
+        
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            height: calc(100vh - 100px);
+            overflow: hidden;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 3.5rem;
+            font-weight: 800;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-in;
+            background: linear-gradient(to right, #ff9a9e, #fecfef, #a8edea, #fed6e3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+            position: relative;
+            padding-bottom: 20px;
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 5px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+        }
+        
+        .main-content {
+            display: flex;
+            flex: 1;
+            gap: 30px;
+            height: calc(100% - 100px);
+        }
+        
+        .avatar-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 30px;
+            padding: 30px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .avatar-section:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .avatar-section:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .avatar-section:hover:before {
+            left: 100%;
+        }
+        
+        .avatar-container {
+            position: relative;
+            margin-bottom: 25px;
+            width: 250px;
+            height: 300px;
+        }
+        
+        .anime-avatar {
+            width: 250px;
+            height: 300px;
+            background: linear-gradient(45deg, #ff9a9e, #fecfef);
+            border-radius: 25px;
+            animation: bounce 3s infinite alternate;
+            filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.2));
+            transition: all 0.5s;
+            border: 4px solid rgba(255, 255, 255, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 100px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .avatar-placeholder {
+            width: 250px;
+            height: 300px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 4px dashed #ff6b6b;
+            border-radius: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.5s;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 10;
+            transition-delay: 0.2s;
+            backdrop-filter: blur(5px);
+        }
+        
+        .avatar-placeholder.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .avatar-placeholder i {
+            font-size: 60px;
+            color: #ff6b6b;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .avatar-placeholder p {
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            margin-top: 5px;
+            font-weight: bold;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .mood-indicator {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 22px;
+            font-weight: 700;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            animation: pulse 2s infinite;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            padding: 12px 25px;
+            border-radius: 30px;
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .avatar-upload {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .upload-label {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            border: 2px dashed white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            font-size: 18px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .upload-label:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);
+        }
+        
+        .upload-label:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+        }
+        
+        .upload-label:hover:before {
+            left: 100%;
+        }
+        
+        .upload-label input[type="file"] {
+            display: none;
+        }
+        
+        .prompt-section {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 30px;
+            padding: 30px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            justify-content: center;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+        
+        .prompt-section:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .prompt-section:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .prompt-section:hover:before {
+            left: 100%;
+        }
+        
+        .prompt-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .prompt-title {
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(to right, #ff9a9e, #fecfef, #a8edea, #fed6e3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.3;
+        }
+        
+        .prompt-input {
+            width: 100%;
+            max-width: 600px;
+            height: 180px;
+            padding: 25px;
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            border-radius: 25px;
+            font-size: 20px;
+            outline: none;
+            transition: all 0.3s;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            resize: none;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .prompt-input:focus {
+            border-color: #ff6b6b;
+            background-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.4);
+            transform: scale(1.02);
+        }
+        
+        .send-button {
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            color: white;
+            border: none;
+            border-radius: 35px;
+            padding: 18px 45px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .send-button:hover {
+            transform: scale(1.08);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.5);
+        }
+        
+        .send-button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+        }
+        
+        .send-button:hover:before {
+            left: 100%;
+        }
+        
+        .emoji-sparkle {
+            position: absolute;
+            font-size: 2rem;
+            pointer-events: none;
+            animation: sparkle 1s forwards;
+            z-index: 100;
+        }
+
+        @keyframes sparkle {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.5) rotate(180deg);
+                opacity: 0;
+            }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.1); }
+            100% { transform: translateX(-50%) scale(1); }
+        }
+        
+        /* Responsive design */
+        @media (max-width: 900px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .avatar-section {
+                margin-bottom: 20px;
+            }
+            
+            .anime-avatar {
+                width: 200px;
+                height: 240px;
+                font-size: 80px;
+            }
+            
+            .avatar-placeholder,
+            .avatar-container {
+                width: 200px;
+                height: 240px;
+            }
+            
+            .mood-indicator {
+                font-size: 18px;
+                padding: 10px 20px;
+                bottom: -35px;
+            }
+            
+            .header {
+                font-size: 2.5rem;
+            }
+            
+            .header::after {
+                width: 120px;
+            }
+            
+            .nav-links {
+                gap: 15px;
+            }
+            
+            .navbar {
+                padding: 12px 20px;
+                border-radius: 0 0 15px 15px;
+            }
+            
+            .navbar-logo h1 {
+                font-size: 24px;
+            }
+            
+            .upload-btn {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header {
+                font-size: 2rem;
+                margin-bottom: 20px;
+            }
+            
+            .header::after {
+                width: 100px;
+                height: 4px;
+            }
+            
+            .main-content {
+                gap: 15px;
+            }
+            
+            .avatar-section {
+                padding: 20px;
+            }
+            
+            .anime-avatar {
+                width: 150px;
+                height: 180px;
+                font-size: 60px;
+            }
+            
+            .avatar-placeholder,
+            .avatar-container {
+                width: 150px;
+                height: 180px;
+            }
+            
+            .mood-indicator {
+                font-size: 16px;
+                padding: 8px 15px;
+                bottom: -30px;
+            }
+            
+            .upload-label {
+                padding: 12px 25px;
+                font-size: 16px;
+            }
+            
+            .prompt-title {
+                font-size: 22px;
+            }
+            
+            .prompt-input {
+                height: 150px;
+                font-size: 18px;
+                padding: 20px;
+                border-radius: 20px;
+            }
+            
+            .send-button {
+                padding: 15px 35px;
+                font-size: 18px;
+                border-radius: 30px;
+            }
+            
+            .nav-links {
+                gap: 10px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-links a {
+                font-size: 14px;
+                padding: 6px 12px;
+            }
+        }</style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="floating-bubbles" id="floatingBubbles"></div>
+
+    <nav class="navbar">
+        <div class="navbar-logo">
+            <div class="logo-icon">
+                <!-- <i class="fas fa-robot"></i> -->
+            </div>
+            <h1>Aang<span>AI</span></h1>
+        </div>
+        <div class="nav-links">
+            <a href="./index.html">Home</a>
+            <a href="./Kitara.html">Aang</a>
+            <a href="./Avatar.html">Avatars</a>
+            <a href="./Contact.html">Contact Us</a>
+        </div>
+        <button class="upload-btn" id="uploadBtn">
+            <span class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></span> Upload Avatar
+        </button>
+    </nav>
+    
+    <div class="container">
+        <h1 class="header">✨ Learn AI with your friend Aang  ✨</h1>
+        
+        <div class="main-content">
+            <div class="avatar-section">
+                <div class="avatar-container">
+                    <img src="./Aang.png" alt="" class="anime-avatar" id="animeAvatar">
+                    <!-- <div class="avatar-placeholder" id="avatarPlaceholder">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Click to upload<br>your photo</p>
+                    </div> -->
+                    <!-- <div class="mood-indicator" id="moodIndicator">HAPPY!</div> -->
+                </div>
+                
+                <div class="avatar-upload">
+                    <!-- <label class="upload-label" for="avatarInput">
+                        <i class="fas fa-image"></i> Upload Your Photo
+                    </label> -->
+                    <!-- <input type="file" id="avatarInput" accept="image/*"> -->
+                </div>
+            </div>
+            
+            <div class="prompt-section">
+                <div class="prompt-container">
+                    <h2 class="prompt-title">What would you like to Question ?</h2>
+                    <textarea class="prompt-input" id="promptInput" placeholder="Type your message here..."></textarea>
+                    <button class="send-button" id="sendButton">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create stars
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.width = Math.random() * 3 + 'px';
+                star.style.height = star.style.width;
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+
+            // Create floating bubbles
+            const bubblesContainer = document.getElementById('floatingBubbles');
+            for (let i = 0; i < 30; i++) {
+                const bubble = document.createElement('div');
+                bubble.classList.add('bubble');
+                
+                // Random size between 20px and 60px
+                const size = Math.random() * 60 + 20;
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                
+                // Random position
+                bubble.style.left = `${Math.random() * 100}%`;
+                
+                // Random animation duration
+                bubble.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                
+                // Random delay
+                bubble.style.animationDelay = `${Math.random() * 5}s`;
+                
+                bubblesContainer.appendChild(bubble);
+            }
+            
+            const promptInput = document.getElementById('promptInput');
+            const sendButton = document.getElementById('sendButton');
+            const animeAvatar = document.getElementById('animeAvatar');
+            const moodIndicator = document.getElementById('moodIndicator');
+            const avatarPlaceholder = document.getElementById('avatarPlaceholder');
+            const avatarInput = document.getElementById('avatarInput');
+            // const uploadBtn = document.getElementById('uploadBtn');
+            
+            // Mood states for avatar
+            const moods = [
+                { text: "HAPPY! 😊", emoji: "😊", color: "#ff6b6b" },
+                { text: "SAD? 😢", emoji: "😢", color: "#4ecdc4" },
+                { text: "EXCITED! 🎉", emoji: "🎉", color: "#a8edea" },
+                { text: "SURPRISED! 😮", emoji: "😮", color: "#fed6e3" },
+                { text: "CURIOUS! 🤔", emoji: "🤔", color: "#ff9a9e" },
+                { text: "LOVING! 💖", emoji: "💖", color: "#fecfef" },
+                { text: "PLAYFUL! 😄", emoji: "😄", color: "#a8edea" },
+                { text: "SLEEPY! 😴", emoji: "😴", color: "#55efc4" },
+                { text: "ANGRY! 😠", emoji: "😠", color: "#ff6b6b" },
+                { text: "COOL! 😎", emoji: "😎", color: "#74b9ff" }
+            ];
+            
+            // Function to set avatar mood
+            function setMood(moodIndex) {
+                const mood = moods[moodIndex % moods.length];
+                moodIndicator.textContent = mood.text;
+                moodIndicator.style.background = `linear-gradient(45deg, ${mood.color}, ${mood.color}88)`;
+                
+                // Change avatar expression slightly
+                const emojis = ['🤖', '👾', '👽', '👻', '🦄', '🐉', '🦊', '🐱', '🐶', '🐼'];
+                animeAvatar.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                
+                // Add sparkle effect
+                const rect = animeAvatar.getBoundingClientRect();
+                createSparkle(rect.left + rect.width/2, rect.top + rect.height/2);
+            }
+            
+            // Function to create sparkle effect
+            function createSparkle(x, y) {
+                const emojis = ['✨', '🌟', '💫', '⭐', '💖', '🌈', '🍭', '🎨'];
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('emoji-sparkle');
+                sparkle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                sparkle.style.left = `${x}px`;
+                sparkle.style.top = `${y}px`;
+                document.body.appendChild(sparkle);
+
+                setTimeout(() => {
+                    sparkle.remove();
+                }, 1000);
+            }
+            
+            // Function to create confetti effect
+            function createConfetti(x, y) {
+                const colors = ['#ff6b6b', '#4ecdc4', '#a8edea', '#fed6e3', '#ff9a9e', '#ffd93d', '#74b9ff', '#55efc4'];
+                for (let i = 0; i < 30; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.classList.add('confetti');
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                    confetti.style.left = `${x + Math.random() * 100 - 50}px`;
+                    confetti.style.top = `${y}px`;
+                    confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+                    
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 5000);
+                }
+            }
+            
+            // Function to handle sending a message
+            function sendMessage() {
+                const message = promptInput.value.trim();
+                if (message === '') {
+                    alert("Please type a message for your anime friend! 🎈");
+                    return;
+                }
+                
+                // Set a random mood for avatar
+                const randomMoodIndex = Math.floor(Math.random() * moods.length);
+                setMood(randomMoodIndex);
+                
+                // Get position for confetti
+                const rect = sendButton.getBoundingClientRect();
+                createConfetti(rect.left + rect.width/2, rect.top);
+                
+                // Add sparkle effects
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(() => {
+                        createSparkle(
+                            rect.left + Math.random() * rect.width,
+                            rect.top + Math.random() * rect.height
+                        );
+                    }, i * 100);
+                }
+                
+                // Clear the input after sending
+                promptInput.value = '';
+                
+                // Show a fun response
+                const responses = [
+                    "Yay! Your message made me so happy! 🌈",
+                    "Wow! That's an amazing message! ✨",
+                    "I love talking with you! 💖",
+                    "You're the best friend ever! 🎉",
+                    "Let's go on an adventure together! 🚀",
+                    "I'm so excited to hear from you! 🌟",
+                    "You always know how to make me smile! 😊",
+                    "Let's play a game together! 🎮",
+                    "I'll remember this forever! 💫",
+                    "You're magical! ✨"
+                ];
+                
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                alert(randomResponse);
+            }
+            
+            // Handle avatar upload
+            // avatarInput.addEventListener('change', function(e) {
+            //     const file = e.target.files[0];
+            //     if (file) {
+            //         const reader = new FileReader();
+            //         reader.onload = function(event) {
+            //             // Hide placeholder and show uploaded image
+            //             avatarPlaceholder.classList.remove('active');
+            //             animeAvatar.innerHTML = `<img src="${event.target.result}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 25px;">`;
+                        
+            //             // Show success message with confetti
+            //             alert("Your avatar has been updated! 🎉 Let's celebrate!");
+            //             const rect = animeAvatar.getBoundingClientRect();
+            //             createConfetti(rect.left + rect.width/2, rect.top);
+                        
+            //             // Add sparkle effects
+            //             for (let i = 0; i < 8; i++) {
+            //                 setTimeout(() => {
+            //                     createSparkle(
+            //                         rect.left + Math.random() * rect.width,
+            //                         rect.top + Math.random() * rect.height
+            //                     );
+            //                 }, i * 100);
+            //             }
+            //         };
+            //         reader.readAsDataURL(file);
+            //     }
+            // });
+            
+            // Click on placeholder to trigger file input
+            avatarPlaceholder.addEventListener('click', function() {
+                avatarInput.click();
+            });
+            
+            // Click on upload button to trigger file input
+            // uploadBtn.addEventListener('click', function() {
+            //     avatarInput.click();
+                
+            //     // Add sparkle effect
+            //     const rect = uploadBtn.getBoundingClientRect();
+            //     createSparkle(rect.left + rect.width/2, rect.top + rect.height/2);
+            // });
+            
+            // Event listeners
+            sendButton.addEventListener('click', sendMessage);
+            
+            promptInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+            
+            // Initial mood setting
+            setMood(0);
+            
+            // Add some animations to the avatar
+            setInterval(() => {
+                animeAvatar.style.transform = `rotate(${Math.sin(Date.now() / 1000) * 5}deg)`;
+            }, 50);
+            
+            // Show avatar placeholder on hover
+            animeAvatar.addEventListener('mouseenter', function() {
+                avatarPlaceholder.classList.add('active');
+            });
+            
+            animeAvatar.addEventListener('mouseleave', function() {
+                setTimeout(() => {
+                    avatarPlaceholder.classList.remove('active');
+                }, 1000);
+            });
+            
+            // Make buttons extra special on hover
+            sendButton.addEventListener('mouseenter', function() {
+                this.innerHTML = '<i class="fas fa-rocket"></i> Send Message';
+            });
+            
+            sendButton.addEventListener('mouseleave', function() {
+                this.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+            });
+            
+            // Add floating animation to mood indicator
+            setInterval(() => {
+                moodIndicator.style.transform = `translateX(-50%) translateY(${Math.sin(Date.now() / 1000) * 5}px)`;
+            }, 50);
+        });
+    </script>
+</body>
+</html>
