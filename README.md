@@ -2,7 +2,8 @@
 
 > *“The fun way for kids to learn Artificial Intelligence — one adventure at a time!”*
 
-![Aang Logo]("./home.png")  
+![Aang Logo]("<img width="1919" height="915" alt="Screenshot 2025-09-16 102047" src="https://github.com/user-attachments/assets/4de26765-0c31-4ef6-86e8-1553b9efcac3" />
+")  
 *(Replace with your logo or screenshot — see instructions below)*
 
 ---
@@ -41,17 +42,6 @@ Built with ❤️ using:
 
 ---
 
-## 🖼️ Screenshots
-
-![Gameplay Screenshot](images/gameplay-screenshot.png)  
-*Training Aang to recognize animals using image blocks!*
-
-![Dashboard View](images/dashboard-screenshot.png)  
-*Progress tracking and achievement badges.*
-
-> 💡 *Place your own screenshots in an `images/` folder and update the paths above.*
-
----
 
 ## 🛠️ Tech Stack
 
